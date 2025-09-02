@@ -47,8 +47,9 @@ if __name__ == '__main__':
     
     os.makedirs(args.outdir, exist_ok=True)
     
-    cmap = matplotlib.colormaps.get_cmap('Spectral_r')
-    
+    # cmap = matplotlib.colormaps.get_cmap('Spectral_r')
+    cmap = matplotlib.colormaps['Spectral_r']
+
     for k, filename in enumerate(filenames):
         print(f'Progress {k+1}/{len(filenames)}: {filename}')
         
@@ -56,8 +57,12 @@ if __name__ == '__main__':
         
         depth = depth_anything.infer_image(raw_image, args.input_size)
         
+        # print(f"Depth info {depth}")
+
         depth = (depth - depth.min()) / (depth.max() - depth.min()) * 255.0
         depth = depth.astype(np.uint8)
+
+        
         
         if args.grayscale:
             depth = np.repeat(depth[..., np.newaxis], 3, axis=-1)
